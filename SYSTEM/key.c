@@ -1,5 +1,8 @@
 #include "key.h"
 
+/** SW1->2； SW2->13； SW3->6； SW4->7 */
+#define KEY_PinAll (GPIO_Pin_2 | GPIO_Pin_6 | GPIO_Pin_7 | GPIO_Pin_13)
+
 void Key_Init(void) {
   RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
 

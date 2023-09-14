@@ -6,24 +6,24 @@ void LED_Init(void) {
   RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB | RCC_APB2Periph_AFIO, ENABLE);
   GPIO_PinRemapConfig(GPIO_Remap_SWJ_JTAGDisable, ENABLE);
 
-  GPIO_InitTypeDef GPIO_InitStructure;
-  GPIO_InitStructure.GPIO_Pin   = LED_PinAll;
-  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-  GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_Out_PP;
-  GPIO_Init(GPIOB, &GPIO_InitStructure);
+  GPIO_InitTypeDef GPIO_InitStruct;
+  GPIO_InitStruct.GPIO_Pin   = LED_PinAll;
+  GPIO_InitStruct.GPIO_Speed = GPIO_Speed_50MHz;
+  GPIO_InitStruct.GPIO_Mode  = GPIO_Mode_Out_PP;
+  GPIO_Init(GPIOB, &GPIO_InitStruct);
 }
 
 /**
- * 
- *
- * Bit_RESET 点亮，Bit_SET   熄灭
- **/
+ * \brief LED灯的亮灭控制
+ * \param LED_Pin: 控制哪个LED灯
+ * \param state: Bit_RESET 点亮；Bit_SET 熄灭
+ */
 void LED_Control(uint16_t LED_Pin, BitAction state) {
   GPIO_WriteBit(GPIOB, LED_Pin, state);
 }
 
 /**
- * 流水灯 从D0->D7依次亮起，之后从D7->D0依次熄灭
+ * \brief 流水灯 从D0->D7依次亮起，之后从D7->D0依次熄灭
  */
 void light_water() {
   for (int i = 0; i < 8; i++) {

@@ -39,10 +39,16 @@ void CarMovement_UP(int PWM) {
   }
 }
 
-// void CarMovement_DOWN(void) {
-//   Motor_Set_Low(Motor_L_VCC_Pin), Motor_Set_High(Motor_L_GND_Pin);
-//   Motor_Set_Low(Motor_R_VCC_Pin), Motor_Set_High(Motor_R_GND_Pin);
-// }
+void CarMovement_DOWN(int PWM) {
+  for (int _ = 0; _ < 150; _++) {
+    Motor_Set_Low(Motor_L_VCC_Pin), Motor_Set_High(Motor_L_GND_Pin);
+    Motor_Set_Low(Motor_R_VCC_Pin), Motor_Set_High(Motor_R_GND_Pin);
+    delay_us(PWM);
+    Motor_Set_Low(Motor_L_VCC_Pin), Motor_Set_Low(Motor_L_GND_Pin);
+    Motor_Set_Low(Motor_R_VCC_Pin), Motor_Set_Low(Motor_R_GND_Pin);
+    delay_us(10 - PWM);
+  }
+}
 
 void CarMovement_RIGHT(int PWM) {
   for (int _ = 0; _ < 200; _++) {

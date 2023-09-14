@@ -8,64 +8,92 @@
 #include "car.h"
 
 /**
- *
- * + [x] 1.遇横线(开始和结束)，遇到横线小车应该停止。
- * + [x] 2.按键启动小车。当长按KEY1的时候，启动小车，**蜂鸣器鸣叫三声**
- * + [x] 3.按键KEY2切换速度。可以低速、中速、高速模式。
- * 评分按照小车的速度与完成度来评分。
- *
- */
 
-int main() {
-  CarMovement_Init();
-  CarRed_Init();
-  Key_Init();
-  Buzzer_Init();
+// int main() {
+//   CarMovement_Init();
+//   CarRed_Init();
+//   Key_Init();
+//   Buzzer_Init();
 
-  /** 低速，中速，高速 Mode */
-  static const int speedControl[] = {8, 7, 6};
-  /** 速度切换控制 */
-  volatile int idx = 0, start = 0;
+//   static const int speedControl[] = {8, 7, 6};
+//   volatile uint8_t idx            = 0;
 
-CONTROL:
-  while (start == 0) {
-    if (GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_6) == Bit_RESET) {
-      while (GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_6) == Bit_RESET)
-        ;
-      delay_ms(20);
-      idx = (idx + 1) % 3;
-      Buzzer_Control(Bit_RESET);
-      delay_ms(500);
-      Buzzer_Control(Bit_SET);
-      delay_ms(500);
-    }
-    if (GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_13) == Bit_RESET) {
-      while (GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_13) == Bit_RESET)
-        ;
-      delay_ms(20);
-      start ^= 1;
-    }
-  }
-  for (int _ = 0; _ < 3; _++) {
-    Buzzer_Control(Bit_RESET);
-    delay_ms(500);
-    Buzzer_Control(Bit_SET);
-    delay_ms(500);
-  }
+// CONTROL:  // 初始状态控制
+//   while (1) {
+//     if (GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_6) == Bit_RESET) {
+//       delay_ms(20);
+//       while (GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_6) == Bit_RESET)
+//         ;
+//       idx = (idx + 1) % 3;
+//       Buzzer_Control(Bit_RESET);
+//       delay_ms(500);
+//       Buzzer_Control(Bit_SET);
+//       delay_ms(500);
+//     }
+//     if (GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_13) == Bit_RESET) {
+//       delay_ms(20);
+//       while (GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_13) == Bit_RESET)
+//         ;
+//       goto RUN;
+//     }
+//   }
+
+// RUN:  // 自动循迹
+//   for (int _ = 0; _ < 3; _++) {
+//     Buzzer_Control(Bit_RESET);
+//     delay_ms(500);
+//     Buzzer_Control(Bit_SET);
+//     delay_ms(500);
+//   }
+//   while (1) {
+//     CarMovement_UP(speedControl[idx]);
+//     if (CarRed_Check_LEFT() && CarRed_Check_RIGHT()) {
+//       CarMovement_STOP();
+//       goto CONTROL;
+//     } else if (CarRed_Check_LEFT() && !CarRed_Check_RIGHT()) {
+//       while (CarRed_Check_LEFT() && !CarRed_Check_RIGHT()) {
+//         CarMovement_LEFT(speedControl[idx]);
+//       }
+//     } else if (!CarRed_Check_LEFT() && CarRed_Check_RIGHT()) {
+//       while (!CarRed_Check_LEFT() && CarRed_Check_RIGHT()) {
+//         CarMovement_RIGHT(speedControl[idx]);
+//       }
+//     }
+//   }
+// }
+
+**/
+
+#define CAR_STOP  0
+#define CAR_UP    1
+#define CAR_DOWN  2
+#define CAR_RIGHT 3
+#define CAR_LEFT  4
+
+volatile int state = CAR_STOP;
+
+void EXIT() {
+  
+}
+
+int main(void) {
   while (1) {
-    CarMovement_UP(speedControl[idx]);
-    if (CarRed_Check_LEFT() && CarRed_Check_RIGHT()) {
-      CarMovement_STOP();
-      start = 0;
-      goto CONTROL;
-    } else if (CarRed_Check_LEFT() && !CarRed_Check_RIGHT()) {
-      while (CarRed_Check_LEFT() && !CarRed_Check_RIGHT()) {
-        CarMovement_LEFT(speedControl[idx]);
-      }
-    } else if (!CarRed_Check_LEFT() && CarRed_Check_RIGHT()) {
-      while (!CarRed_Check_LEFT() && CarRed_Check_RIGHT()) {
-        CarMovement_RIGHT(speedControl[idx]);
-      }
+    switch (state) {
+      case CAR_STOP:
+        CarMovement_STOP(8);
+        break;
+      case CAR_UP:
+        CarMovement_UP(8);
+        break;
+      case CAR_DOWN:
+        CarMovement_DOWN(8);
+        break;
+      case CAR_RIGHT:
+        CarMovement_RIGHT(8);
+        break;
+      case CAR_LEFT:
+        CarMovement_LEFT(8);
+        break;
     }
   }
 }

@@ -5,3 +5,7 @@
 USER/PRO/DebugConfig
 USER/PRO/Listings
 USER/PRO/Objects
+
+## FlyMcu Log file
+tools/FlyMcuConfig.ini
+tools/ProgramLogs.txt

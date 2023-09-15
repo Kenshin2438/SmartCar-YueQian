@@ -1,7 +1,9 @@
 ## Device info
 
 - STM32-F103-C8
-- YueQian (Double Pi)
+- Double Pi (YueQian)
+- BlueTooth HC-05
+- LCD 1602
 
 ## Keil Version
 

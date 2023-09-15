@@ -87,3 +87,25 @@ void CarMovement_LEFT(int PWM) {
     if (10 > PWM) delay_us(10 - PWM);
   }
 }
+
+// TODO: Merge
+void car_go() {
+  Motor_Set_High(Motor_L_VCC_Pin), Motor_Set_Low(Motor_L_GND_Pin);
+  Motor_Set_High(Motor_R_VCC_Pin), Motor_Set_Low(Motor_R_GND_Pin);
+}
+void car_back() {
+  Motor_Set_Low(Motor_L_VCC_Pin), Motor_Set_High(Motor_L_GND_Pin);
+  Motor_Set_Low(Motor_R_VCC_Pin), Motor_Set_High(Motor_R_GND_Pin);
+}
+void car_stop() {
+  Motor_Set_Low(Motor_L_VCC_Pin), Motor_Set_Low(Motor_L_GND_Pin);
+  Motor_Set_Low(Motor_R_VCC_Pin), Motor_Set_Low(Motor_R_GND_Pin);
+}
+void car_right() {
+  Motor_Set_High(Motor_L_VCC_Pin), Motor_Set_Low(Motor_L_GND_Pin);
+  Motor_Set_Low(Motor_R_VCC_Pin), Motor_Set_High(Motor_R_GND_Pin);
+}
+void car_left() {
+  Motor_Set_Low(Motor_L_VCC_Pin), Motor_Set_High(Motor_L_GND_Pin);
+  Motor_Set_High(Motor_R_VCC_Pin), Motor_Set_Low(Motor_R_GND_Pin);
+}

@@ -12,4 +12,11 @@ void CarMovement_DOWN(int);
 void CarMovement_RIGHT(int);
 void CarMovement_LEFT(int);
 
+// TODO: Merge 
+void car_go(void);
+void car_back(void);
+void car_stop(void);
+void car_left(void);
+void car_right(void);
+
 #endif
